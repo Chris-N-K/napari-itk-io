@@ -2,9 +2,12 @@
 This module provides itk-based file reading functionality in a reader plugin for napari.
 
 """
-from pathlib import Path
 import itk
-from itk_napari_conversion import image_layer_from_image
+import numpy as np
+from pathlib import Path
+
+from ._utils import image_layer_from_image
+from ._config import _settings
 
 
 def napari_get_reader(path):
@@ -86,6 +89,8 @@ def reader_function(path):
         image = itk.imread(path)
 
     image_layer = image_layer_from_image(image)
+    if _settings.get('CURRENT', 'flip_on_load'):
+        image_layer.data = np.flip(image_layer.data, axis=int(_settings.get('CURRENT', 'flip_on_load')))
     components = image.GetNumberOfComponentsPerPixel()
     if components == 1:
         channel_axis = None
