@@ -8,10 +8,9 @@ if _ini.exists():
     _settings.read(_ini)
 else:
     default = dict(
-        save_format='.nii.gz',
-        copy_metadata=True,
-        flip_on_load=None,
-        flip_on_save=None,
+        copy_metadata='y',
+        flip_on_load='',
+        flip_on_save='',
     )
     print(f'Writing configuration file at: {_ini}')
     _settings['DEFAULT'] = default

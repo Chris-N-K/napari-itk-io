@@ -1,9 +1,10 @@
 import napari.viewer
-from qtpy.QtWidgets import QWidget, QDialog, QFormLayout, QVBoxLayout, QPushButton, QLineEdit, QCheckBox, QDialogButtonBox, QLabel, QComboBox
+from qtpy.QtWidgets import QWidget, QDialog, QFormLayout, QVBoxLayout, QPushButton, QLineEdit, QCheckBox, \
+    QDialogButtonBox, QLabel, QComboBox
 
 from ._config import _settings, _ini
 
-__all__ = ['ITK_IO_SettingsManager', 'CopyMetaDialog']
+__all__ = ['SettingsManager', 'CopyMetaDialog']
 
 
 class OptionLE(QLineEdit):
@@ -27,7 +28,7 @@ class OptionCB(QCheckBox):
         return str(self.isChecked())
 
 
-class ITK_IO_SettingsManager(QWidget):
+class SettingsManager(QWidget):
     def __init__(self):
         super().__init__()
         self._ini = _ini
@@ -74,8 +75,8 @@ class CopyMetaDialog(QDialog):
 
         self.setWindowTitle('CopyMetaInfo')
 
-        QBtn = QDialogButtonBox.Yes | QDialogButtonBox.No
-        self.buttonbox = QDialogButtonBox(QBtn)
+        qbtn = QDialogButtonBox.Yes | QDialogButtonBox.No
+        self.buttonbox = QDialogButtonBox(qbtn)
         self.buttonbox.accepted.connect(self.accept)
         self.buttonbox.rejected.connect(self.reject)
 

@@ -17,7 +17,7 @@ def image_layer_from_image(image):
     scale = image["spacing"]
     translate = image["origin"]
     # Todo: convert the rotation matrix to angles, in degrees
-    #rotate = image['direction']
+    # rotate = image['direction']
     # https://github.com/InsightSoftwareConsortium/itk-napari-conversion/issues/7
 
     data = itk.array_view_from_image(image)
@@ -27,9 +27,9 @@ def image_layer_from_image(image):
     return image_layer
 
 
-def image_from_layer(data, meta, ltype):
+def image_from_layer(data, meta, layer_type):
     """Convert a napari.layers.Image to an itk.Image."""
-    if ltype == 'labels':
+    if layer_type == 'labels':
         data = data.astype(np.int16)
         image = itk.image_view_from_array(data)
     elif meta['rgb'] and data.shape[-1] in (3, 4):

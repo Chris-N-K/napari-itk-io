@@ -5,32 +5,20 @@ contributions:
     - id: napari-itk-io.get_reader
       python_name: napari_itk_io._reader:napari_get_reader
       title: Open data with napari-itk-io
-    - id: napari-itk-io.write_multiple
-      python_name: napari_itk_io._writer:write_multiple
-      title: Save multi-layer data with napari-itk-io
-    - id: napari-itk-io.write_image
-      python_name: napari_itk_io._writer:write_image
-      title: Save image layer with napari-itk-io
-    - id: napari-itk-io.write_labels
-      python_name: napari_itk_io._writer:write_labels
-      title: Save labels layer with napari-itk-io
+    - id: napari-itk-io.write_nifti
+      python_name: napari_itk_io._writer:write_nifti
+      title: Save image or labels layer(s) data with napari-itk-io
     - id: napari-itk-io.settings_manager
-      python_name: napari_itk_io._widgets:ITK_IO_SettingsManager
+      python_name: napari_itk_io._widgets:SettingsManager
       title: itk-io Settings Manager
   readers:
     - command: napari-itk-io.get_reader
       accepts_directories: true
       filename_patterns: ['*']
   writers:
-    - command: napari-itk-io.write_image
-      layer_types: [ 'image']
-      filename_extensions: [ '.nii', '.nii.gz' ]
-    - command: napari-itk-io.write_labels
-      layer_types: [ 'labels' ]
-      filename_extensions: [ '.nii', '.nii.gz' ]
-    - command: napari-itk-io.write_multiple
+    - command: napari-itk-io.write_nifti
       layer_types: ['image*','labels*']
       filename_extensions: ['.nii', '.nii.gz']
   widgets:
     - command: napari-itk-io.settings_manager
-      display_name: Settings Manager
+      display_name: Options
