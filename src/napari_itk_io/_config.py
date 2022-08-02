@@ -1,12 +1,18 @@
 from configparser import ConfigParser
 from pathlib import Path
+import os
 
-_ini = Path('~/.itk-io.ini').expanduser().absolute()
+_ini = Path('~/.config/itk-io/itk-io.ini').expanduser().absolute()
 _settings = ConfigParser()
 
 if _ini.exists():
     _settings.read(_ini)
 else:
+    if _ini.parent.parent.exists():
+        os.mkdir(_ini.parent)
+    else:
+        os.mkdir(_ini.parent.parent)
+        os.mkdir(_ini.parent)
     default = dict(
         copy_metadata='y',
         flip_on_load='',
