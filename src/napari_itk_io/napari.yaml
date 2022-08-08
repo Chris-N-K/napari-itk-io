@@ -5,8 +5,8 @@ contributions:
     - id: napari-itk-io.get_reader
       python_name: napari_itk_io._reader:napari_get_reader
       title: Open data with napari-itk-io
-    - id: napari-itk-io.write_nifti
-      python_name: napari_itk_io._writer:write_nifti
+    - id: napari-itk-io.write_niftis
+      python_name: napari_itk_io._writer:write_niftis
       title: Save image or labels layer(s) data with napari-itk-io
     - id: napari-itk-io.settings_manager
       python_name: napari_itk_io._widgets:SettingsManager
@@ -16,7 +16,7 @@ contributions:
       accepts_directories: true
       filename_patterns: ['*']
   writers:
-    - command: napari-itk-io.write_nifti
+    - command: napari-itk-io.write_niftis
       layer_types: ['image*','labels*']
       filename_extensions: ['.nii', '.nii.gz']
   widgets:

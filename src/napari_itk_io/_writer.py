@@ -13,7 +13,7 @@ from ._utils import image_from_layer
 from ._widgets import CopyMetaDialog
 from ._config import _settings
 
-__all__ = ['write_nifti']
+__all__ = ['write_niftis']
 
 if TYPE_CHECKING:
     DataType = Union[Any, Sequence[Any]]
@@ -47,4 +47,4 @@ def write_niftis(path: str, data: List[FullLayerData]):
             saved = write_nifti(save_path, data, meta, layer_type)
             save_paths.append(saved)
         return save_paths
-    return write_nifti(path, *data[0])
+    return write_nifti(str(path), *data[0])
