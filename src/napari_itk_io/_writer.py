@@ -20,25 +20,31 @@ if TYPE_CHECKING:
     FullLayerData = Tuple[DataType, dict, str]
 
 
-def write_nifti(path: str, data: List[FullLayerData]):
+def write_nifti(path: str, data: DataType, meta: dict, layer_type: str):
+    if _settings.get('CURRENT', 'flip_on_save'):
+        data = np.flip(data, axis=int(_settings.get('CURRENT', 'flip_on_save')))
+    if _settings.get('CURRENT', 'copy_metadata') == 'y' and 'itk_metadata' not in meta['metadata']:
+        dialog = CopyMetaDialog(meta['name'])
+        if dialog.exec():
+            ref_layer = dialog.viewer.layers[dialog.combobox.currentText()]
+            meta['itk_metadata'] = ref_layer.metadata['itk_metadata']
+            meta['scale'] = ref_layer.scale
+            meta['translate'] = ref_layer.translate
+
+    img = image_from_layer(data, meta, layer_type)
+    itk.imwrite(img, path)
+    return path
+
+def write_niftis(path: str, data: List[FullLayerData]):
     """Writes image or labels layer(s) to file."""
     save_paths = []
     path = Path(path)
-    for (data, meta, layer_type) in data:
-        save_path = ''.join([str(path.parent), path.stem, meta['name'], *path.suffixes])
-
-        if _settings.get('CURRENT', 'flip_on_save'):
-            data = np.flip(data, axis=int(_settings.get('CURRENT', 'flip_on_save')))
-        if _settings.get('CURRENT', 'copy_metadata') == 'y' and 'itk_metadata' not in meta['metadata']:
-            dialog = CopyMetaDialog(meta['name'])
-            if dialog.exec():
-                ref_layer = dialog.viewer.layers[dialog.combobox.currentText()]
-                meta['itk_metadata'] = ref_layer.metadata['itk_metadata']
-                meta['scale'] = ref_layer.scale
-                meta['translate'] = ref_layer.translate
-
-        img = image_from_layer(data, meta, layer_type)
-        itk.imwrite(img, save_path)
-        save_paths.append(path)
-
-    return save_paths
+    if len(data) > 1:
+        for (data, meta, layer_type) in data:
+            name, *suffixes = path.name.split('.')
+            fname = '.'.join(['_'.join([name, meta['name']]), *suffixes])
+            save_path = str(Path(path.parent, fname))
+            saved = write_nifti(save_path, (data, meta, layer_type))
+            save_paths.append(saved)
+        return save_paths
+    return write_nifti(path, data[0])
