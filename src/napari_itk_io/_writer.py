@@ -47,4 +47,4 @@ def write_niftis(path: str, data: List[FullLayerData]):
             saved = write_nifti(save_path, data, meta, layer_type)
             save_paths.append(saved)
         return save_paths
-    return write_nifti(path, data[0])
+    return write_nifti(path, *data[0])
