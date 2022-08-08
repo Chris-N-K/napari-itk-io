@@ -25,7 +25,7 @@ def write_nifti(path: str, data: List[FullLayerData]):
     save_paths = []
     path = Path(path)
     for (data, meta, layer_type) in data:
-        save_path = ''.join([path.parent, path.stem, meta['name'], *path.suffixes])
+        save_path = ''.join([str(path.parent), path.stem, meta['name'], *path.suffixes])
 
         if _settings.get('CURRENT', 'flip_on_save'):
             data = np.flip(data, axis=int(_settings.get('CURRENT', 'flip_on_save')))
