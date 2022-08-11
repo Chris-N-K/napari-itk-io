@@ -6,6 +6,15 @@ from ._config import _settings, _ini
 
 __all__ = ['SettingsManager', 'CopyMetaDialog']
 
+# copy stylesheet from napari
+try:
+    from napari.settings import get_settings
+    from napari.qt import get_stylesheet
+except ImportError:
+    STYLESHEET = None
+else:
+    STYLESHEET = get_stylesheet(get_settings().appearance.theme)
+
 
 class OptionLE(QLineEdit):
     def __init__(self, *args, text=None, **kwargs):
@@ -74,6 +83,7 @@ class CopyMetaDialog(QDialog):
         self.viewer = napari.viewer.current_viewer()
 
         self.setWindowTitle('CopyMetaInfo')
+        self.setStyleSheet(STYLESHEET)
 
         qbtn = QDialogButtonBox.Yes | QDialogButtonBox.No
         self.buttonbox = QDialogButtonBox(qbtn)
