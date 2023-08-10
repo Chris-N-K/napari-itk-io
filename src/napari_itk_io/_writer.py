@@ -27,7 +27,7 @@ def write_nifti(path: str, data: DataType, meta: dict, layer_type: str):
         dialog = CopyMetaDialog(meta['name'])
         if dialog.exec():
             ref_layer = dialog.viewer.layers[dialog.combobox.currentText()]
-            meta['itk_metadata'] = ref_layer.metadata['itk_metadata']
+            meta['metadata']['itk_metadata'] = ref_layer.metadata['itk_metadata']
             meta['scale'] = ref_layer.scale
             meta['translate'] = ref_layer.translate
 
